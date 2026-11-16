@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Easy Breathing - Mon espace personnel</title>
+
+    <meta name="description"
+        content="Easy Breathing : un parcours personnel de relaxation et de méditation sur 14 jours.">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- EN-TÊTE -->
+    <header class="header">
+
+        <div class="brand">
+            <span class="brand-icon">🌿</span>
+
+            <div>
+                <h1>Easy Breathing</h1>
+                <p>Mon espace de bien-être</p>
+            </div>
+        </div>
+
+        <button class="menu-button" id="menuButton"
+            aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navigation">
+            ☰
+        </button>
+
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav class="navigation" id="navigation">
+
+        <button class="nav-link active" data-page="dashboard">
+            🏠 Tableau de bord
+        </button>
+
+        <button class="nav-link" data-page="program">
+            📅 Mon programme
+        </button>
+
+        <button class="nav-link" data-page="about">
+            🌱 À propos
+        </button>
+
+    </nav>
+
+    <main class="container">
+
+        <!-- TABLEAU DE BORD -->
+        <section id="dashboardPage" class="page active">
+
+            <div class="welcome">
+
+                <span class="eyebrow">MON PARCOURS PERSONNEL</span>
+
+                <h2>Bienvenue dans Easy Breathing</h2>
+
+                <p>
+                    Accordez-vous un moment pour respirer,
+                    vous détendre et prendre soin de vous.
+
+                    Progressez à votre rythme, une journée à la fois.
+                </p>
+
+                <button id="startButton" class="primary-button">
+                    Découvrir mon programme →
+                </button>
+
+            </div>
+
+            <h2 class="section-title">Vue d'ensemble</h2>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <span class="stat-icon">📅</span>
+                    <strong>14</strong>
+                    <span>Journées prévues</span>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-icon">🎯</span>
+                    <strong id="completedCount">0</strong>
+                    <span>Journées terminées</span>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-icon">🌿</span>
+                    <strong id="progressPercent">0 %</strong>
+                    <span>Progression</span>
+                </div>
+
+            </div>
+
+            <section class="progress-section">
+
+                <div class="progress-heading">
+                    <h2>Ma progression</h2>
+                    <span id="progressText">0 sur 14 journées</span>
+                </div>
+
+                <div class="progress-bar">
+                    <div id="progressFill"></div>
+                </div>
+
+                <p class="small-text">
+                    Chaque étape est un moment consacré à votre bien-être.
+                </p>
+
+            </section>
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Mon parcours</h2>
+                    <p>Découvrez les 14 journées de votre programme.</p>
+                </div>
+
+                <button class="text-button" id="allDaysButton">
+                    Voir les 14 jours →
+                </button>
+
+            </div>
+
+            <div id="dashboardDays" class="days-grid"></div>
+
+        </section>
+
+        <!-- PROGRAMME COMPLET -->
+        <section id="programPage" class="page">
+
+            <div class="page-heading">
+                <span class="eyebrow">MON PARCOURS</span>
+                <h2>Programme de 14 jours</h2>
+                <p>
+                    Choisissez une journée pour découvrir son contenu.
+                </p>
+            </div>
+
+            <div id="allDays" class="days-grid"></div>
+
+        </section>
+
+        <!-- FICHE QUOTIDIENNE -->
+        <section id="dayPage" class="page">
+
+            <button id="backButton" class="back-button">
+                ← Retour au programme
+            </button>
+
+            <div id="dayDetails"></div>
+
+        </section>
+
+        <!-- À PROPOS -->
+        <section id="aboutPage" class="page">
+
+            <div class="welcome">
+
+                <span class="eyebrow">À PROPOS</span>
+
+                <h2>Bienvenue dans votre espace Easy Breathing</h2>
+
+                <p>
+                    Easy Breathing est un programme personnel
+                    de 14 jours consacré à la relaxation,
+                    à la visualisation, à la méditation
+                    et au développement personnel.
+                </p>
+
+                <p>
+                    Ce parcours vous invite à prendre du temps
+                    pour vous, à pratiquer régulièrement et
+                    à observer votre évolution.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>🌿 Easy Breathing — Un jour à la fois.</p>
+    </footer>
+
+    <script src="sessions.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

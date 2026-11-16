@@ -468,3 +468,93 @@ footer {
     }
 
 }
+
+
+/* ==================================
+   AJOUTS : SEANCES, PROGRESSION
+================================== */
+
+.day-card.done {
+    border-color: #739b79;
+}
+
+.done-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: #dfe9dc;
+    color: #42604a;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.step {
+    background: #f3f5ef;
+    padding: 18px;
+    border-radius: 9px;
+    margin-top: 16px;
+}
+
+.step h3 {
+    margin: 4px 0 8px;
+}
+
+.step-type {
+    color: #7c997d;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.step.affirmation {
+    background: #e8eee5;
+    font-style: italic;
+}
+
+.step button,
+.complete-button {
+    background: #52765f;
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.step button:hover,
+.complete-button:hover {
+    background: #3d5d49;
+}
+
+.step button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.complete-button {
+    margin-top: 26px;
+}
+
+.complete-button.is-done {
+    background: #edf2eb;
+    color: #42604a;
+}
+
+.step textarea {
+    width: 100%;
+    min-height: 70px;
+    margin: 6px 0 14px;
+    padding: 10px;
+    border: 1px solid #d5dbd0;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.reflection-question {
+    font-weight: bold;
+    margin: 10px 0 0;
+}
