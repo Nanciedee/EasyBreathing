@@ -1,0 +1,470 @@
+
+/* ==================================
+   EASY BREATHING - DESIGN GENERAL
+================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f4ee;
+    color: #34463d;
+    line-height: 1.6;
+}
+
+/* ==================================
+   EN-TETE
+================================== */
+
+.header {
+    background: #263e35;
+    color: white;
+    padding: 22px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    font-size: 36px;
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 27px;
+}
+
+.brand p {
+    margin: 0;
+    font-size: 13px;
+    color: #d4e0d5;
+}
+
+.menu-button {
+    display: none;
+}
+
+/* ==================================
+   NAVIGATION
+================================== */
+
+.navigation {
+    background: white;
+    padding: 12px 5%;
+    display: flex;
+    gap: 12px;
+    border-bottom: 1px solid #e5e7df;
+}
+
+.nav-link {
+    border: none;
+    background: transparent;
+    color: #526457;
+    padding: 10px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: #eaf0e8;
+    color: #294a35;
+}
+
+/* ==================================
+   CONTENU PRINCIPAL
+================================== */
+
+.container {
+    width: 90%;
+    max-width: 1150px;
+    margin: 35px auto;
+    min-height: 65vh;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* ==================================
+   ACCUEIL
+================================== */
+
+.welcome {
+    background: #e8eee5;
+    padding: 42px;
+    border-radius: 16px;
+    margin-bottom: 35px;
+}
+
+.eyebrow {
+    color: #66816a;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.welcome h2 {
+    font-size: 30px;
+    margin: 12px 0;
+    color: #294638;
+}
+
+.welcome p {
+    max-width: 650px;
+    color: #526457;
+    margin-bottom: 25px;
+}
+
+/* ==================================
+   BOUTONS
+================================== */
+
+button {
+    font-family: inherit;
+}
+
+.primary-button {
+    background: #52765f;
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.primary-button:hover {
+    background: #3d5d49;
+}
+
+.text-button,
+.back-button {
+    background: transparent;
+    border: none;
+    color: #52765f;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 8px;
+}
+
+.text-button:hover,
+.back-button:hover {
+    color: #263e35;
+}
+
+/* ==================================
+   TITRES
+================================== */
+
+.section-title,
+.section-heading h2 {
+    color: #34463d;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0 18px;
+    gap: 15px;
+}
+
+.section-heading p,
+.page-heading p {
+    color: #718075;
+    margin-top: 5px;
+}
+
+.page-heading {
+    margin-bottom: 30px;
+}
+
+/* ==================================
+   STATISTIQUES
+================================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 20px 0 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+}
+
+.stat-icon {
+    font-size: 23px;
+}
+
+.stat-card strong {
+    font-size: 27px;
+    color: #52765f;
+}
+
+.stat-card span:last-child {
+    color: #718075;
+    font-size: 13px;
+}
+
+/* ==================================
+   PROGRESSION
+================================== */
+
+.progress-section {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 35px;
+}
+
+.progress-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.progress-heading h2 {
+    margin: 0 0 15px;
+}
+
+#progressText {
+    color: #718075;
+    font-size: 13px;
+}
+
+.progress-bar {
+    background: #e5e8e1;
+    height: 12px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+#progressFill {
+    background: #739b79;
+    height: 100%;
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+.small-text {
+    font-size: 12px;
+    color: #849087;
+    margin-bottom: 0;
+}
+
+/* ==================================
+   CARTES DES JOURNEES
+================================== */
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.day-card {
+    background: white;
+    border: 1px solid #e5e7df;
+    padding: 22px;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.day-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.07);
+}
+
+.day-number {
+    color: #7c997d;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.day-card h3 {
+    color: #34463d;
+    font-size: 17px;
+    margin: 10px 0;
+}
+
+.day-card p {
+    color: #718075;
+    font-size: 13px;
+    min-height: 42px;
+}
+
+.day-duration {
+    display: block;
+    color: #7c997d;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.day-card button {
+    width: 100%;
+    background: #edf2eb;
+    border: none;
+    color: #42604a;
+    padding: 11px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.day-card button:hover {
+    background: #dfe9dc;
+}
+
+/* ==================================
+   FICHE QUOTIDIENNE
+================================== */
+
+.day-details {
+    background: white;
+    border-radius: 14px;
+    padding: 30px;
+    margin-top: 20px;
+}
+
+.day-details h2 {
+    color: #294638;
+    font-size: 27px;
+}
+
+.day-details h3 {
+    color: #52765f;
+}
+
+.day-details p {
+    color: #526457;
+}
+
+.detail-placeholder {
+    background: #f3f5ef;
+    padding: 18px;
+    border-radius: 9px;
+    margin-top: 20px;
+}
+
+/* ==================================
+   PIED DE PAGE
+================================== */
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #718075;
+    border-top: 1px solid #e5e7df;
+    font-size: 13px;
+}
+
+/* ==================================
+   RESPONSIVE - TABLETTES
+================================== */
+
+@media (max-width: 850px) {
+
+    .days-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+/* ==================================
+   RESPONSIVE - TELEPHONES
+================================== */
+
+@media (max-width: 600px) {
+
+    .header {
+        padding: 18px 5%;
+    }
+
+    .brand h1 {
+        font-size: 22px;
+    }
+
+    .brand-icon {
+        font-size: 28px;
+    }
+
+    .menu-button {
+        display: block;
+        background: transparent;
+        color: white;
+        border: none;
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+    .navigation {
+        display: none;
+        flex-direction: column;
+        padding: 12px 5%;
+    }
+
+    .navigation.open {
+        display: flex;
+    }
+
+    .nav-link {
+        text-align: left;
+    }
+
+    .container {
+        width: 94%;
+        margin: 22px auto;
+    }
+
+    .welcome {
+        padding: 25px;
+    }
+
+    .welcome h2 {
+        font-size: 24px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .days-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading,
+    .progress-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .day-details {
+        padding: 20px;
+    }
+
+}
