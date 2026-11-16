@@ -12,8 +12,12 @@ The interface is in French.
 - **Full program page** listing all 14 days
 - **Daily session pages** with guided steps: narration, breathing, silent pause
   (with countdown timer), affirmation, gradual return and personal reflection
-- **Progress tracking**: mark a day as completed (or undo it). Progress is saved
-  in the browser (`localStorage`), so it is still there next time
+- **Progress tracking**: mark a day as completed (or undo it). The completion
+  date is recorded and shown on the day page
+- **Automatic saving**: progress and your reflection answers are saved in the
+  browser (`localStorage`) as you go, and are still there next time
+- **Backup**: export your progress to a `.json` file, import it back (for example
+  on another device), or reset everything from the dashboard ("Ma sauvegarde")
 - **Responsive design** with a mobile menu
 - **Theme**: royal-to-navy blue gradient with a light reflection, gold text,
   cursive headings (*Great Vibes*) and an elegant serif body (*Cormorant Garamond*)
@@ -105,23 +109,29 @@ Google Fonts `<link>` in `index.html` and the two font variables.
 
 ---
 
-## Resetting progress
+## Saving and backing up your progress
 
-Progress is stored in the browser under the key `easyBreathingCompletedDays`.
-To reset it, open the browser console (F12) and run:
+Everything is saved automatically in your browser under the key
+`easyBreathingProgress` (completed days with their dates, and reflection answers).
+A status line on the dashboard shows when the last save happened.
 
-```js
-localStorage.removeItem("easyBreathingCompletedDays");
-```
+Because the data lives in the browser, it can be lost if you clear your browser data,
+switch browser or device, or use private browsing. To keep a safe copy:
 
-then reload the page. Clearing the browser's site data also works.
+- **Export**: dashboard → "Exporter ma progression" downloads a `.json` file
+- **Import**: dashboard → "Importer une sauvegarde" restores that file
+  (it replaces the current progress, after a confirmation)
+- **Reset**: dashboard → "Réinitialiser" erases all progress and answers
+  (after a confirmation)
+
+Older progress saved by a previous version (`easyBreathingCompletedDays`) is
+migrated automatically.
 
 ---
 
 ## Known limitations
 
-- Reflection answers are not saved yet (only completed days are)
-- Progress is stored per browser and per device (no account or sync)
+- Progress is stored per browser and per device (no account or automatic sync): use export/import to move it
 - Sessions for Days 2 to 14 still need to be written
 
 ---

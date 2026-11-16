@@ -558,3 +558,375 @@ footer {
     font-weight: bold;
     margin: 10px 0 0;
 }
+
+
+/* ==========================================================
+   THEME : BLEU ROYAL -> MARINE, REFLET DE LUMIERE, TEXTE OR
+   (placé en fin de fichier : il remplace les couleurs ci-dessus)
+========================================================== */
+
+:root {
+    --royal: #1d3fb0;
+    --royal-light: #3a62d8;
+    --navy: #07133a;
+    --navy-deep: #030a22;
+    --gold: #e3c46c;
+    --gold-bright: #f6e3a1;
+    --gold-deep: #b8932f;
+    --glass: rgba(255, 255, 255, 0.07);
+    --glass-strong: rgba(255, 255, 255, 0.12);
+    --gold-line: rgba(227, 196, 108, 0.35);
+
+    --font-script: "Great Vibes", "Brush Script MT", cursive;
+    --font-body: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: 19px;
+    color: var(--gold);
+    background:
+        radial-gradient(ellipse 70% 45% at 15% 0%, rgba(140, 180, 255, 0.38), transparent 60%),
+        radial-gradient(ellipse 50% 35% at 90% 20%, rgba(90, 130, 240, 0.22), transparent 65%),
+        linear-gradient(160deg, var(--royal) 0%, #11287a 35%, var(--navy) 70%, var(--navy-deep) 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-height: 100vh;
+}
+
+html {
+    background: var(--navy-deep);
+}
+
+button,
+textarea {
+    font-family: var(--font-body);
+}
+
+/* ---------- Titres cursifs ---------- */
+
+.brand h1,
+.welcome h2,
+.page-heading h2,
+.section-title,
+.section-heading h2,
+.progress-heading h2,
+.day-details h2 {
+    font-family: var(--font-script);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 55%, var(--gold-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--gold);
+}
+
+.brand h1 { font-size: 40px; line-height: 1.1; }
+.welcome h2 { font-size: 46px; line-height: 1.15; }
+.page-heading h2,
+.day-details h2 { font-size: 42px; }
+.section-title,
+.section-heading h2 { font-size: 36px; }
+.progress-heading h2 { font-size: 32px; }
+
+.day-card h3,
+.day-details h3,
+.step h3 {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-style: italic;
+    color: var(--gold-bright);
+}
+
+.day-card h3 { font-size: 21px; }
+
+/* ---------- En-tête et navigation ---------- */
+
+.header {
+    background:
+        linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.16) 45%, transparent 60%),
+        linear-gradient(90deg, var(--royal) 0%, var(--navy) 100%);
+    border-bottom: 1px solid var(--gold-line);
+    color: var(--gold);
+}
+
+.brand p {
+    color: var(--gold-bright);
+    font-style: italic;
+    font-size: 16px;
+}
+
+.menu-button {
+    color: var(--gold);
+}
+
+.navigation {
+    background: rgba(3, 10, 34, 0.55);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--gold-line);
+}
+
+.nav-link {
+    color: var(--gold);
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: var(--glass-strong);
+    color: var(--gold-bright);
+    box-shadow: inset 0 0 0 1px var(--gold-line);
+}
+
+/* ---------- Texte général ---------- */
+
+.eyebrow {
+    color: var(--gold-bright);
+    font-weight: 700;
+}
+
+.welcome p,
+.section-heading p,
+.page-heading p,
+.day-details p,
+.day-card p,
+.small-text,
+#progressText,
+.stat-card span:last-child,
+.day-duration,
+.day-number {
+    color: var(--gold);
+}
+
+.welcome p,
+.day-details p { font-size: 20px; }
+.day-card p,
+.stat-card span:last-child,
+#progressText,
+.day-duration,
+.small-text { font-size: 16px; }
+.day-number { font-size: 14px; }
+
+/* ---------- Blocs en verre doré ---------- */
+
+.welcome,
+.stat-card,
+.progress-section,
+.day-card,
+.day-details {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 45%, rgba(255, 255, 255, 0.07) 100%),
+        rgba(7, 19, 58, 0.55);
+    border: 1px solid var(--gold-line);
+    box-shadow: 0 8px 28px rgba(0, 5, 30, 0.45);
+    backdrop-filter: blur(6px);
+}
+
+.welcome {
+    background:
+        radial-gradient(ellipse 60% 120% at 0% 0%, rgba(160, 195, 255, 0.30), transparent 60%),
+        linear-gradient(135deg, rgba(58, 98, 216, 0.55), rgba(7, 19, 58, 0.65));
+}
+
+.day-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 5, 30, 0.6), 0 0 18px rgba(227, 196, 108, 0.25);
+    border-color: var(--gold);
+}
+
+.day-card.done {
+    border-color: var(--gold);
+}
+
+.stat-card strong {
+    color: var(--gold-bright);
+    font-size: 32px;
+}
+
+/* ---------- Boutons ---------- */
+
+.primary-button,
+.complete-button,
+.step button {
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold) 50%, var(--gold-deep));
+    color: var(--navy-deep);
+    font-weight: 700;
+    font-size: 17px;
+    border: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.primary-button:hover,
+.complete-button:hover,
+.step button:hover {
+    background: linear-gradient(135deg, #fff3c4, var(--gold-bright) 50%, var(--gold));
+    box-shadow: 0 6px 20px rgba(227, 196, 108, 0.4);
+}
+
+.complete-button.is-done {
+    background: var(--glass-strong);
+    color: var(--gold-bright);
+    box-shadow: inset 0 0 0 1px var(--gold);
+}
+
+.text-button,
+.back-button {
+    color: var(--gold-bright);
+    font-size: 17px;
+}
+
+.text-button:hover,
+.back-button:hover {
+    color: #fff3c4;
+}
+
+.day-card button {
+    background: var(--glass-strong);
+    color: var(--gold-bright);
+    border: 1px solid var(--gold-line);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.day-card button:hover {
+    background: rgba(227, 196, 108, 0.2);
+    border-color: var(--gold);
+}
+
+/* ---------- Progression ---------- */
+
+.progress-bar {
+    background: rgba(3, 10, 34, 0.6);
+    border: 1px solid var(--gold-line);
+}
+
+#progressFill {
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold-bright));
+}
+
+/* ---------- Séances ---------- */
+
+.step {
+    background: var(--glass);
+    border: 1px solid var(--gold-line);
+}
+
+.step.affirmation {
+    background: linear-gradient(135deg, rgba(58, 98, 216, 0.35), rgba(255, 255, 255, 0.05));
+}
+
+.step-type {
+    color: var(--gold-bright);
+}
+
+.detail-placeholder {
+    background: var(--glass);
+    border: 1px dashed var(--gold-line);
+}
+
+.done-badge {
+    background: rgba(227, 196, 108, 0.2);
+    color: var(--gold-bright);
+    border: 1px solid var(--gold-line);
+}
+
+.step textarea {
+    background: rgba(3, 10, 34, 0.55);
+    color: var(--gold-bright);
+    border: 1px solid var(--gold-line);
+    font-size: 17px;
+}
+
+.step textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(227, 196, 108, 0.2);
+}
+
+/* ---------- Pied de page ---------- */
+
+footer {
+    color: var(--gold);
+    border-top: 1px solid var(--gold-line);
+    font-size: 16px;
+    font-style: italic;
+}
+
+/* ---------- Téléphones ---------- */
+
+@media (max-width: 600px) {
+
+    body { font-size: 18px; }
+
+    .brand h1 { font-size: 32px; }
+    .welcome h2 { font-size: 36px; }
+    .page-heading h2,
+    .day-details h2 { font-size: 34px; }
+    .section-title,
+    .section-heading h2 { font-size: 30px; }
+
+    .navigation { background: rgba(3, 10, 34, 0.92); }
+}
+
+
+/* ---------- Sauvegarde ---------- */
+
+.backup-section {
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 35px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 45%, rgba(255, 255, 255, 0.07) 100%),
+        rgba(7, 19, 58, 0.55);
+    border: 1px solid var(--gold-line);
+    box-shadow: 0 8px 28px rgba(0, 5, 30, 0.45);
+}
+
+.backup-section .progress-heading h2 {
+    margin-bottom: 10px;
+}
+
+#saveStatus {
+    color: var(--gold-bright);
+    font-size: 16px;
+    font-style: italic;
+}
+
+.backup-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.secondary-button {
+    background: var(--glass-strong);
+    color: var(--gold-bright);
+    border: 1px solid var(--gold-line);
+    padding: 14px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.secondary-button:hover {
+    background: rgba(227, 196, 108, 0.2);
+    border-color: var(--gold);
+}
+
+.secondary-button.danger {
+    color: #f3b4b4;
+    border-color: rgba(243, 180, 180, 0.4);
+}
+
+.secondary-button.danger:hover {
+    background: rgba(243, 120, 120, 0.15);
+    border-color: #f3b4b4;
+}
+
+@media (max-width: 600px) {
+    .backup-actions button { width: 100%; }
+}

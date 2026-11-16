@@ -6,34 +6,6 @@
 
 const programName = "Easy Breathing";
 
-/* ==================================
-   PROGRESSION SAUVEGARDEE
-================================== */
-
-const STORAGE_KEY = "easyBreathingCompletedDays";
-
-function loadCompleted() {
-    try {
-        const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        return Array.isArray(data) ? data : [];
-    } catch (error) {
-        return [];
-    }
-}
-
-function saveCompleted() {
-    try {
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify([...completedDays])
-        );
-    } catch (error) {
-        /* stockage indisponible : la progression reste en mémoire */
-    }
-}
-
-const completedDays = new Set(loadCompleted());
-
 let pauseTimer = null;
 
 /* ==================================
@@ -112,6 +84,146 @@ const days = [
         description: "Faire le bilan des 14 jours et préparer la suite."
     }
 ];
+
+
+/* ==================================
+   PROGRESSION SAUVEGARDEE
+   (enregistrée dans le navigateur)
+================================== */
+
+const STORAGE_KEY = "easyBreathingProgress";
+const OLD_STORAGE_KEY = "easyBreathingCompletedDays";
+
+function emptyProgress() {
+    return { version: 2, completed: {}, reflections: {} };
+}
+
+/* Vérifie et nettoie des données (stockage ou fichier importé) */
+function sanitizeProgress(data) {
+
+    const clean = emptyProgress();
+
+    if (!data || typeof data !== "object") {
+        return clean;
+    }
+
+    if (data.completed && typeof data.completed === "object") {
+        Object.entries(data.completed).forEach(([key, value]) => {
+            const index = Number(key);
+            if (Number.isInteger(index) && index >= 0 && index < days.length) {
+                clean.completed[index] =
+                    typeof value === "string" ? value : new Date().toISOString();
+            }
+        });
+    }
+
+    if (data.reflections && typeof data.reflections === "object") {
+        Object.entries(data.reflections).forEach(([key, value]) => {
+            if (/^[\w-]+$/.test(key) && typeof value === "string" && value) {
+                clean.reflections[key] = value.slice(0, 5000);
+            }
+        });
+    }
+
+    return clean;
+}
+
+function loadProgress() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+
+        if (raw) {
+            return sanitizeProgress(JSON.parse(raw));
+        }
+
+        /* Ancienne version : simple liste de jours terminés */
+        const old = JSON.parse(localStorage.getItem(OLD_STORAGE_KEY));
+
+        if (Array.isArray(old)) {
+            const migrated = emptyProgress();
+            old.forEach(index => {
+                if (Number.isInteger(index) && index >= 0 && index < days.length) {
+                    migrated.completed[index] = new Date().toISOString();
+                }
+            });
+            return migrated;
+        }
+    } catch (error) {
+        /* données illisibles : on repart de zéro */
+    }
+
+    return emptyProgress();
+}
+
+let progress = loadProgress();
+
+function setSaveStatus(ok) {
+
+    const status = document.getElementById("saveStatus");
+
+    if (!status) {
+        return;
+    }
+
+    if (ok) {
+        const time = new Date().toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+        status.textContent = `✓ Enregistré à ${time}`;
+    } else {
+        status.textContent =
+            "⚠ Enregistrement impossible : pensez à exporter votre progression";
+    }
+}
+
+function saveProgress() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+        setSaveStatus(true);
+        return true;
+    } catch (error) {
+        setSaveStatus(false);
+        return false;
+    }
+}
+
+function isCompleted(index) {
+    return Object.prototype.hasOwnProperty.call(progress.completed, index);
+}
+
+function completedCount() {
+    return Object.keys(progress.completed).length;
+}
+
+function formatDate(iso) {
+    const date = new Date(iso);
+    return isNaN(date)
+        ? ""
+        : date.toLocaleDateString("fr-FR", {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+}
+
+let reflectionTimer = null;
+
+function saveReflection(id, value) {
+
+    if (value) {
+        progress.reflections[id] = value;
+    } else {
+        delete progress.reflections[id];
+    }
+
+    clearTimeout(reflectionTimer);
+
+    reflectionTimer = setTimeout(() => {
+        reflectionTimer = null;
+        saveProgress();
+    }, 400);
+}
 
 
 /* ==================================
@@ -197,7 +309,7 @@ function createDayCard(day, index) {
     number.className = "day-number";
     number.textContent = `JOUR ${index + 1}`;
 
-    if (completedDays.has(index)) {
+    if (isCompleted(index)) {
         card.classList.add("done");
 
         const badge = document.createElement("span");
@@ -318,6 +430,12 @@ function createStep(step) {
 
             const field = document.createElement("textarea");
             field.id = id;
+            field.placeholder = "Écrivez ici… votre réponse est enregistrée automatiquement.";
+            field.value = progress.reflections[id] || "";
+
+            field.addEventListener("input", () => {
+                saveReflection(id, field.value);
+            });
 
             box.append(questionLabel, field);
         });
@@ -368,26 +486,30 @@ function createCompleteButton(index) {
     button.className = "complete-button";
 
     function refresh() {
-        const done = completedDays.has(index);
+        const done = isCompleted(index);
         button.classList.toggle("is-done", done);
-        button.textContent = done
-            ? "✓ Journée terminée (annuler)"
-            : "Marquer cette journée comme terminée";
+
+        if (done) {
+            const date = formatDate(progress.completed[index]);
+            button.textContent = date
+                ? `✓ Journée terminée le ${date} (annuler)`
+                : "✓ Journée terminée (annuler)";
+        } else {
+            button.textContent = "Marquer cette journée comme terminée";
+        }
     }
 
     button.addEventListener("click", () => {
 
-        if (completedDays.has(index)) {
-            completedDays.delete(index);
+        if (isCompleted(index)) {
+            delete progress.completed[index];
         } else {
-            completedDays.add(index);
+            progress.completed[index] = new Date().toISOString();
         }
 
-        saveCompleted();
+        saveProgress();
         refresh();
-        updateProgress();
-        displayDashboardDays();
-        displayAllDays();
+        refreshAll();
     });
 
     refresh();
@@ -536,7 +658,7 @@ menuButton.addEventListener("click", () => {
 
 function updateProgress() {
 
-    const completed = completedDays.size;
+    const completed = completedCount();
 
     const percentage = Math.round(
         (completed / days.length) * 100
@@ -555,6 +677,115 @@ function updateProgress() {
         .style.width = percentage + "%";
 
 }
+
+
+/* ==================================
+   SAUVEGARDE : EXPORT / IMPORT / REINITIALISATION
+================================== */
+
+function refreshAll() {
+    displayDashboardDays();
+    displayAllDays();
+    updateProgress();
+}
+
+function exportProgress() {
+
+    const payload = {
+        app: programName,
+        exportedAt: new Date().toISOString(),
+        ...progress
+    };
+
+    const blob = new Blob(
+        [JSON.stringify(payload, null, 2)],
+        { type: "application/json" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download =
+        `easy-breathing-progression-${new Date().toISOString().slice(0, 10)}.json`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+const importInput = document.getElementById("importInput");
+
+document.getElementById("exportButton")
+    .addEventListener("click", exportProgress);
+
+document.getElementById("importButton")
+    .addEventListener("click", () => importInput.click());
+
+importInput.addEventListener("change", () => {
+
+    const file = importInput.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        try {
+            const data = JSON.parse(reader.result);
+
+            if (!data || typeof data !== "object" ||
+                (!data.completed && !data.reflections)) {
+                throw new Error("invalid");
+            }
+
+            const imported = sanitizeProgress(data);
+
+            if (!confirm(
+                "Importer cette sauvegarde remplacera votre progression actuelle. Continuer ?"
+            )) {
+                return;
+            }
+
+            progress = imported;
+            saveProgress();
+            refreshAll();
+
+        } catch (error) {
+            alert("Ce fichier n'est pas une sauvegarde Easy Breathing valide.");
+        }
+    };
+
+    reader.readAsText(file);
+    importInput.value = "";
+});
+
+document.getElementById("resetButton")
+    .addEventListener("click", () => {
+
+        if (!confirm(
+            "Effacer toute votre progression et vos réponses ? Cette action est définitive."
+        )) {
+            return;
+        }
+
+        progress = emptyProgress();
+        saveProgress();
+        refreshAll();
+    });
+
+/* Dernier enregistrement si on quitte la page en pleine saisie */
+window.addEventListener("pagehide", () => {
+    if (reflectionTimer) {
+        clearTimeout(reflectionTimer);
+        reflectionTimer = null;
+        saveProgress();
+    }
+});
 
 
 /* ==================================
