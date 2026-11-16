@@ -88,6 +88,164 @@ const days = [
 
 
 /* ==================================
+   ILLUSTRATIONS DES JOURNEES
+   (SVG intégré : aucun fichier image requis)
+   Pour utiliser votre propre photo, ajoutez dans une
+   journée de la liste ci-dessus :
+   image: "images/jour1.jpg", imageAlt: "Description"
+================================== */
+
+const deg = angle => angle * Math.PI / 180;
+const pt = (cx, cy, r, angle) =>
+    [cx + r * Math.cos(deg(angle)), cy - r * Math.sin(deg(angle))];
+const fx = n => n.toFixed(1);
+
+function rays(cx, cy, r1, r2, angles) {
+    return angles.map(angle => {
+        const [x1, y1] = pt(cx, cy, r1, angle);
+        const [x2, y2] = pt(cx, cy, r2, angle);
+        return `<line x1="${fx(x1)}" y1="${fx(y1)}" x2="${fx(x2)}" y2="${fx(y2)}"/>`;
+    }).join("");
+}
+
+const circ = (cx, cy, r, extra = "") =>
+    `<circle cx="${cx}" cy="${cy}" r="${r}" ${extra}/>`;
+
+function sparkle(cx, cy, r) {
+    return `<path d="M${cx} ${cy - r}Q${cx} ${cy} ${cx + r} ${cy}Q${cx} ${cy} ${cx} ${cy + r}Q${cx} ${cy} ${cx - r} ${cy}Q${cx} ${cy} ${cx} ${cy - r}Z"/>`;
+}
+
+function spiralPath() {
+    let d = "";
+    for (let i = 0; i <= 140; i++) {
+        const t = (i / 140) * 6 * Math.PI;
+        const r = 4 + t * (82 / (6 * Math.PI));
+        const x = 200 + r * Math.cos(t);
+        const y = 100 + r * Math.sin(t);
+        d += (i === 0 ? "M" : "L") + fx(x) + " " + fx(y);
+    }
+    return `<path d="${d}"/>`;
+}
+
+function compassStar() {
+    let d = "";
+    for (let i = 0; i < 16; i++) {
+        const angle = i * 22.5 - 90;
+        const r = i % 2 === 1 ? 14 : (i % 4 === 0 ? 86 : 54);
+        const [x, y] = pt(200, 100, r, -angle);
+        d += (i === 0 ? "M" : "L") + fx(x) + " " + fx(y);
+    }
+    return `<path d="${d}Z"/>`;
+}
+
+const artMotifs = [
+    /* 1 - Lever de soleil */
+    () => ({
+        line: `<path d="M120 140A80 80 0 0 1 280 140"/><path d="M50 140H350"/>${rays(200, 140, 95, 118, [0, 30, 60, 90, 120, 150, 180])}<path d="M120 160H280M150 176H250"/>`,
+        fill: sparkle(80, 50, 8) + sparkle(330, 58, 6)
+    }),
+    /* 2 - Ondulations */
+    () => ({
+        line: `<path d="M200 28C190 48 185 56 200 66C215 56 210 48 200 28Z"/>${[30, 60, 90, 120].map(rx => `<ellipse cx="200" cy="124" rx="${rx}" ry="${rx * 0.3}"/>`).join("")}`,
+        fill: circ(200, 124, 3)
+    }),
+    /* 3 - Chemins vers une étoile */
+    () => ({
+        line: `<path d="M200 182V132"/><path d="M200 132C200 104 140 112 120 76"/><path d="M200 132V72"/><path d="M200 132C200 104 260 112 280 76"/>`,
+        fill: sparkle(200, 48, 18) + circ(120, 70, 5) + circ(280, 70, 5)
+    }),
+    /* 4 - Lotus */
+    () => ({
+        line: `<path d="M200 150C175 120 175 85 200 55C225 85 225 120 200 150Z"/><path d="M200 150C165 140 140 110 135 80C165 90 190 115 200 150Z"/><path d="M200 150C235 140 260 110 265 80C235 90 210 115 200 150Z"/><path d="M200 150C150 155 110 140 85 110C125 105 170 120 200 150Z"/><path d="M200 150C250 155 290 140 315 110C275 105 230 120 200 150Z"/><path d="M90 168H310"/>`,
+        fill: sparkle(200, 30, 7)
+    }),
+    /* 5 - Montagne et objectif */
+    () => ({
+        line: `<path d="M40 175L130 75L185 130L245 58L360 175Z"/><path d="M225 82L245 58L265 85"/>`,
+        fill: sparkle(245, 28, 14) + sparkle(130, 42, 7) + circ(90, 40, 3) + circ(320, 45, 3)
+    }),
+    /* 6 - Centrage */
+    () => ({
+        line: `${[20, 45, 70].map(r => circ(200, 100, r)).join("")}${circ(200, 100, 92, 'stroke-dasharray="3 6"')}${rays(200, 100, 92, 100, [0, 90, 180, 270])}`,
+        fill: circ(200, 100, 7)
+    }),
+    /* 7 - Spirale */
+    () => ({
+        line: spiralPath(),
+        fill: circ(200, 100, 4) + sparkle(330, 40, 7) + sparkle(70, 160, 6)
+    }),
+    /* 8 - Méditation */
+    () => ({
+        line: `${circ(200, 100, 80)}${circ(200, 100, 92, 'stroke-dasharray="3 6"')}<path d="M170 132C170 102 185 90 200 90C215 90 230 102 230 132"/><path d="M150 142C170 122 230 122 250 142C240 158 160 158 150 142Z"/>`,
+        fill: circ(200, 66, 14)
+    }),
+    /* 9 - Intuition (troisième oeil) */
+    () => ({
+        line: `<path d="M70 100C120 40 280 40 330 100C280 160 120 160 70 100Z"/>${circ(200, 100, 30)}${rays(200, 100, 62, 82, [40, 60, 80, 100, 120, 140])}`,
+        fill: circ(200, 100, 12) + sparkle(200, 20, 6)
+    }),
+    /* 10 - Route vers l'avenir */
+    () => ({
+        line: `<path d="M30 110H370"/><path d="M172 110A28 28 0 0 1 228 110"/><path d="M60 190L185 110M340 190L215 110"/><path d="M200 190V110" stroke-dasharray="6 8"/>`,
+        fill: sparkle(90, 50, 8) + sparkle(310, 45, 10) + circ(150, 30, 3) + circ(260, 70, 3)
+    }),
+    /* 11 - Visualisation combinée */
+    () => ({
+        line: `${circ(175, 85, 45)}${circ(225, 85, 45)}${circ(200, 128, 45)}`,
+        fill: circ(200, 100, 5)
+    }),
+    /* 12 - Papillon (créativité) */
+    () => ({
+        line: `<path d="M200 82C160 32 95 42 100 88C103 113 170 110 200 105"/><path d="M200 82C240 32 305 42 300 88C297 113 230 110 200 105"/><path d="M200 108C165 115 120 130 135 160C150 182 190 150 200 125"/><path d="M200 108C235 115 280 130 265 160C250 182 210 150 200 125"/><path d="M200 70C192 56 186 50 180 46M200 70C208 56 214 50 220 46"/>`,
+        fill: `<rect x="196" y="68" width="8" height="84" rx="4"/>` + circ(180, 45, 3) + circ(220, 45, 3)
+    }),
+    /* 13 - Fleur de vie */
+    () => ({
+        line: `${circ(200, 100, 30)}${[0, 60, 120, 180, 240, 300].map(a => { const [x, y] = pt(200, 100, 30, a); return circ(fx(x), fx(y), 30); }).join("")}${circ(200, 100, 60)}`,
+        fill: circ(200, 100, 3)
+    }),
+    /* 14 - Boussole */
+    () => ({
+        line: `${circ(200, 100, 72)}${compassStar()}`,
+        fill: circ(200, 100, 4) + sparkle(200, 14, 7)
+    })
+];
+
+const artDecor = [[28, 30], [372, 28], [52, 172], [350, 168], [96, 22], [310, 186]]
+    .map(([x, y]) => circ(x, y, 2)).join("");
+
+function artSvg(index) {
+    const motif = artMotifs[index % artMotifs.length]();
+
+    return `<svg class="day-art-svg" viewBox="0 0 400 200" aria-hidden="true" focusable="false">` +
+        `<g class="ill-fill ill-dim">${artDecor}</g>` +
+        `<g class="ill">${motif.line}</g>` +
+        `<g class="ill-fill">${motif.fill}</g></svg>`;
+}
+
+/* variant : "card" ou "hero" */
+function createArt(index, variant) {
+
+    const wrapper = document.createElement("div");
+    wrapper.className = `day-art ${variant}`;
+
+    const day = days[index];
+
+    if (day.image) {
+        const img = document.createElement("img");
+        img.src = day.image;
+        img.alt = day.imageAlt || day.title;
+        img.loading = "lazy";
+        wrapper.appendChild(img);
+    } else {
+        wrapper.innerHTML = artSvg(index);
+    }
+
+    return wrapper;
+}
+
+
+/* ==================================
    PROGRESSION SAUVEGARDEE
    (enregistrée dans le navigateur)
 ================================== */
@@ -341,6 +499,7 @@ function createDayCard(day, index) {
     });
 
     card.append(
+        createArt(index, "card"),
         number,
         title,
         description,
@@ -555,12 +714,27 @@ function buildPrintView(index) {
 
     /* En-tête */
     const header = makeEl("header", "print-header");
-    header.append(
+
+    const headerText = makeEl("div", "print-header-text");
+    headerText.append(
         makeEl("div", "print-brand", "Easy Breathing"),
         makeEl("div", "print-day", `Jour ${index + 1} sur ${days.length}`),
         makeEl("h1", "print-title", day.title),
         makeEl("p", "print-meta", `Durée recommandée : ${day.duration}`)
     );
+
+    const headerArt = makeEl("div", "print-art");
+
+    if (day.image) {
+        const img = document.createElement("img");
+        img.src = day.image;
+        img.alt = "";
+        headerArt.appendChild(img);
+    } else {
+        headerArt.innerHTML = artSvg(index);
+    }
+
+    header.append(headerText, headerArt);
     printArea.appendChild(header);
 
     /* Objectif */
@@ -697,6 +871,7 @@ function openDay(index) {
     description.textContent = day.description;
 
     article.append(
+        createArt(index, "hero"),
         eyebrow,
         title,
         duration,
@@ -954,6 +1129,12 @@ window.addEventListener("pagehide", () => {
 ================================== */
 
 function initializeApp() {
+
+    const welcomeArt = document.getElementById("welcomeArt");
+
+    if (welcomeArt) {
+        welcomeArt.innerHTML = artSvg(3);
+    }
 
     displayDashboardDays();
 

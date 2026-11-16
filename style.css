@@ -1089,3 +1089,120 @@ footer {
         color: #666;
     }
 }
+
+
+/* ==========================================================
+   ILLUSTRATIONS
+========================================================== */
+
+.ill {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ill-fill {
+    fill: var(--gold-bright);
+    stroke: none;
+}
+
+.ill-dim {
+    opacity: 0.55;
+}
+
+.day-art {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 5 / 2;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--gold-line);
+    background:
+        radial-gradient(ellipse 70% 90% at 25% 0%, rgba(160, 195, 255, 0.40), transparent 65%),
+        linear-gradient(160deg, var(--royal-light) 0%, var(--royal) 30%, var(--navy) 100%);
+}
+
+.day-art svg,
+.day-art img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.day-art img {
+    object-fit: cover;
+}
+
+.day-art.hero {
+    aspect-ratio: 3 / 1;
+    max-height: 280px;
+    margin-bottom: 22px;
+    border-radius: 12px;
+}
+
+.welcome {
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-art {
+    position: absolute;
+    right: 36px;
+    top: 50%;
+    width: 330px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.welcome-art svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 1000px) {
+    .welcome-art { display: none; }
+}
+
+@media print {
+
+    .print-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .print-art {
+        flex: none;
+        width: 60mm;
+        border: 1px solid #d9c27a;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .print-art svg {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .print-art img {
+        display: block;
+        width: 100%;
+        height: 30mm;
+        object-fit: cover;
+    }
+
+    .print-art .ill {
+        stroke: #12318c;
+        stroke-width: 2.4;
+    }
+
+    .print-art .ill-fill {
+        fill: #b8932f;
+    }
+}

@@ -8,6 +8,9 @@ The interface is in French.
 
 ## Features
 
+- **Illustrations**: a gold line-art illustration for each of the 14 days (sunrise, lotus,
+  mountain, compass…), shown on the cards, at the top of each day and on the PDF.
+  They are built into the code (SVG), so no image files and no internet are needed
 - **Dashboard** with an overview, a progress bar and the first 6 days of the program
 - **Full program page** listing all 14 days
 - **Daily session pages** with guided steps: narration, breathing, silent pause
@@ -90,6 +93,28 @@ seconds), `affirmation`, `return`, `reflection` (uses a `questions` list).
 
 The titles, durations and short descriptions shown on the day cards are in the
 `days` array at the top of `script.js`.
+
+---
+
+## Using your own photos
+
+Each day can show a photo instead of its illustration. Put your images in an
+`images/` folder next to `index.html`, then add two fields to the day in the
+`days` array of `script.js`:
+
+```js
+{
+    title: "Relaxation Alpha",
+    duration: "15 à 20 minutes",
+    description: "...",
+    image: "images/jour2.jpg",
+    imageAlt: "A calm lake at dawn"
+}
+```
+
+The photo replaces the illustration on the card, the day page and the PDF.
+Days without an `image` keep their illustration. (This works with the separate
+files; the single-file version cannot see an `images/` folder.)
 
 ---
 
