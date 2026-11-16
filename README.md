@@ -16,6 +16,9 @@ The interface is in French.
   date is recorded and shown on the day page
 - **Automatic saving**: progress and your reflection answers are saved in the
   browser (`localStorage`) as you go, and are still there next time
+- **Printable PDF of each day**: on a day page, "Exporter en PDF / Imprimer" opens
+  a clean A4 layout (objective, every step, ruled lines for your reflection
+  answers, or your saved answers). Choose "Save as PDF" in the print dialog
 - **Backup**: export your progress to a `.json` file, import it back (for example
   on another device), or reset everything from the dashboard ("Ma sauvegarde")
 - **Responsive design** with a mobile menu
@@ -109,6 +112,19 @@ Google Fonts `<link>` in `index.html` and the two font variables.
 
 ---
 
+## Exporting a day as PDF
+
+Open any day, then click **"Exporter en PDF / Imprimer"** (or press Ctrl/Cmd + P
+on the day page). In the print dialog, choose **"Save as PDF"** as the printer to
+get a file, or pick a real printer to print on paper.
+
+The sheet contains the day's title and duration, its objective, all the steps,
+and the reflection questions. If you already typed answers they are printed;
+otherwise blank ruled lines are left to write by hand. It needs no internet
+connection and no extra library.
+
+---
+
 ## Saving and backing up your progress
 
 Everything is saved automatically in your browser under the key
@@ -118,7 +134,7 @@ A status line on the dashboard shows when the last save happened.
 Because the data lives in the browser, it can be lost if you clear your browser data,
 switch browser or device, or use private browsing. To keep a safe copy:
 
-- **Export**: dashboard → "Exporter ma progression" downloads a `.json` file
+- **Export**: dashboard → "Exporter la sauvegarde (.json)" downloads a `.json` file
 - **Import**: dashboard → "Importer une sauvegarde" restores that file
   (it replaces the current progress, after a confirmation)
 - **Reset**: dashboard → "Réinitialiser" erases all progress and answers

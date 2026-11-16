@@ -7,6 +7,7 @@
 const programName = "Easy Breathing";
 
 let pauseTimer = null;
+let currentDayIndex = null;
 
 /* ==================================
    INFORMATIONS DES 14 JOURNEES
@@ -277,6 +278,10 @@ function showPage(pageName) {
 
     clearInterval(pauseTimer);
 
+    if (pageName !== "day") {
+        currentDayIndex = null;
+    }
+
     const activeButton = document.querySelector(
         `.nav-link[data-page="${pageName === "day" ? "program" : pageName}"]`
     );
@@ -519,6 +524,150 @@ function createCompleteButton(index) {
 
 
 /* ==================================
+   EXPORT PDF / IMPRESSION D'UNE JOURNEE
+================================== */
+
+const printArea = document.getElementById("printArea");
+
+function getSession(index) {
+    return typeof sessions !== "undefined"
+        ? sessions.find(item => item.day === index + 1)
+        : null;
+}
+
+function makeEl(tag, className, text) {
+    const element = document.createElement(tag);
+    if (className) {
+        element.className = className;
+    }
+    if (text) {
+        element.textContent = text;
+    }
+    return element;
+}
+
+function buildPrintView(index) {
+
+    const day = days[index];
+    const session = getSession(index);
+
+    printArea.innerHTML = "";
+
+    /* En-tête */
+    const header = makeEl("header", "print-header");
+    header.append(
+        makeEl("div", "print-brand", "Easy Breathing"),
+        makeEl("div", "print-day", `Jour ${index + 1} sur ${days.length}`),
+        makeEl("h1", "print-title", day.title),
+        makeEl("p", "print-meta", `Durée recommandée : ${day.duration}`)
+    );
+    printArea.appendChild(header);
+
+    /* Objectif */
+    const objective = makeEl("section", "print-objective");
+    objective.append(
+        makeEl("h2", "", "Objectif de la journée"),
+        makeEl("p", "", session && session.objective
+            ? session.objective
+            : day.description)
+    );
+    printArea.appendChild(objective);
+
+    /* Étapes */
+    if (session) {
+
+        session.steps.forEach((step, number) => {
+
+            const box = makeEl("section", `print-step ${step.type}`);
+
+            box.appendChild(makeEl(
+                "div",
+                "print-step-label",
+                `Étape ${number + 1} · ${stepLabels[step.type] || step.type}`
+            ));
+
+            box.appendChild(makeEl("h2", "", step.title));
+
+            if (step.text) {
+                box.appendChild(makeEl("p", "", step.text));
+            }
+
+            if (step.type === "pause" && step.duration) {
+                box.appendChild(makeEl(
+                    "p",
+                    "print-pause",
+                    `Pause silencieuse de ${step.duration} secondes. Respirez calmement.`
+                ));
+            }
+
+            if (step.type === "reflection" && step.questions) {
+
+                step.questions.forEach((question, i) => {
+
+                    const id = `${step.id}-q${i + 1}`;
+                    const answer = progress.reflections[id];
+
+                    box.appendChild(makeEl("p", "print-question", question));
+
+                    if (answer) {
+                        box.appendChild(makeEl("p", "print-answer", answer));
+                    } else {
+                        const lines = makeEl("div", "print-lines");
+                        for (let n = 0; n < 3; n++) {
+                            lines.appendChild(makeEl("div"));
+                        }
+                        box.appendChild(lines);
+                    }
+                });
+            }
+
+            printArea.appendChild(box);
+        });
+
+    } else {
+
+        printArea.appendChild(makeEl(
+            "p",
+            "print-note",
+            "Les instructions détaillées de cette journée seront ajoutées prochainement."
+        ));
+    }
+
+    /* Pied de fiche */
+    const footer = makeEl("div", "print-footer");
+    const done = isCompleted(index)
+        ? `☑ Journée terminée le ${formatDate(progress.completed[index])}`
+        : "☐ Journée terminée le ____ / ____ / ________";
+    footer.append(
+        makeEl("p", "", done),
+        makeEl("p", "print-tagline", "Easy Breathing — Un jour à la fois.")
+    );
+    printArea.appendChild(footer);
+}
+
+function createPrintButton(index) {
+
+    const button = document.createElement("button");
+    button.className = "secondary-button print-button";
+    button.textContent = "🖨 Exporter en PDF / Imprimer";
+
+    button.addEventListener("click", () => {
+        buildPrintView(index);
+        window.print();
+    });
+
+    return button;
+}
+
+/* Ctrl+P / Cmd+P sur une page de journée */
+window.addEventListener("beforeprint", () => {
+    if (currentDayIndex !== null) {
+        buildPrintView(currentDayIndex);
+    }
+});
+
+
+/* ==================================
    OUVRIR UNE FICHE QUOTIDIENNE
 ================================== */
 
@@ -555,9 +704,9 @@ function openDay(index) {
         description
     );
 
-    const session = typeof sessions !== "undefined"
-        ? sessions.find(item => item.day === index + 1)
-        : null;
+    currentDayIndex = index;
+
+    const session = getSession(index);
 
     if (session) {
 
@@ -581,7 +730,19 @@ function openDay(index) {
         article.appendChild(placeholder);
     }
 
-    article.appendChild(createCompleteButton(index));
+    const actions = document.createElement("div");
+    actions.className = "day-actions";
+    actions.append(
+        createCompleteButton(index),
+        createPrintButton(index)
+    );
+    article.appendChild(actions);
+
+    const printHint = document.createElement("p");
+    printHint.className = "small-text";
+    printHint.textContent =
+        "Dans la fenêtre d'impression, choisissez « Enregistrer au format PDF » comme imprimante.";
+    article.appendChild(printHint);
 
     dayDetails.appendChild(article);
 
